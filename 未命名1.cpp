@@ -1,30 +1,39 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include<malloc.h>
 #include<string.h>
 int main()
 {
 	FILE *fp;
 	char *str;
-	int flen;
+	int len;
 	int i=0;
-	fp=fopen("export.gpx","r+");
+	char lon[10];
+	char lat[15];
+	char time[20];
+	fp=fopen("export.gpx","r");
 	if(fp==NULL)
 	{
-		printf("无法打开文件，文件错误\n");
-		return(-1); 
+		printf("文件打开失败，文件错误！\n");
+		return(-1);
 	}
 	fseek(fp,0,SEEK_END);
-	flen=ftell(fp);
-	str=(char *)malloc(1*flen);
-	fread(str,1,flen,fp);
-	while(!(str[i]='<'&&str[i+1]='g'&&str[i+2]='p'&&str[i+3]='x'&&str[i+4]='>'))
+	len=ftell(fp);
+	str=(char *)malloc(len);
+	fseek(fp,0,SEEK_SET);
+	fread(str,1,len,fp);
+	while(!(str[i]=='<'&&str[i+1]=='g'&&str[i+2]=='p'&&str[i+3]=='x'&&str[i+4]=='>'))
 	{
-		if(str[i]='l'&&str[i+1]='a'&&str[i+2]='t')
+		if(str[i]==' '&&str[i+1]=='l'&&str[i+2]=='a'&&str[i+3]=='t')
 		{
-			printf("纬度：");
-			strncpy(lat,9); 
+			strncpy(lat,&str[i+6],9);
+			strncpy(lon,&str[i+22],10);
+			strncpy(time,&str[i+55],20);
+			lat[9]='\0';
+			lon[10]='\0';
+			time[20]='\0';
+			printf("%s %s %s",lat,lon,time);
 		}
-	} 
+	}
 	free(str);
 	fclose(fp);
 	return 0;
