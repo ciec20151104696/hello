@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include<stdlib.h> 
 #include<string.h>
 int main()
 {
@@ -20,9 +20,9 @@ int main()
 	}
 	fseek(fp,0,SEEK_END);
  	flen=ftell(fp);
-	str=(char *)malloc(1*flen);
+	str=(char *)malloc(1*flen); 
 	fseek(fp,0,SEEK_SET);
-	fread(str,flen,1,fp);
+	fread(str,1,flen,fp);
 	str[flen]='\0';	
 	fprintf(fp1,"经度,纬度,日期,时间\n");
 	while(!(str[i]=='<'&&str[i+1]=='/'&&str[i+2]=='g'&&str[i+3]=='p'&&str[i+4]=='x'&&str[i+5]=='>'))
